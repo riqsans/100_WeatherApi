@@ -135,5 +135,73 @@
     </div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  function getWeather(city) {
+    const apiKey = "5a690ce8dd4743fe8f811005250610";
+    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+
+    $('.location').text(`Mencari ${city}...`);
+    $('.condition, .temperature, .details').show();
+    $('.weather-card').removeClass('loaded');
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function(data) {
+        if (data.current.is_day) {
+          $('body').removeClass('night').addClass('day');
+        } else {
+          $('body').removeClass('day').addClass('night');
+        }
+
+        const suhu = `${Math.round(data.current.temp_c)}°C`;
+        const terasaSeperti = `${Math.round(data.current.feelslike_c)}°C`;
+        const kelembapan = `${data.current.humidity}%`;
+        const kecepatanAngin = `${data.current.wind_kph} km/jam`;
+        const kondisi = data.current.condition.text;
+        const ikonUrl = "https:" + data.current.condition.icon;
+        const lokasi = data.location.name;
+        const region = data.location.region || "-";
+        const country = data.location.country || "-";
+        const latitude = data.location.lat;
+        const longitude = data.location.lon;
+
+        $('.location').text(`${lokasi}, ${country}`);
+        $('.region').text(`Kecamatan/Wilayah: ${region}`);
+        $('.latlon').text(`Latitude: ${latitude} | Longitude: ${longitude}`);
+        $('.temperature').text(suhu);
+        $('.feels-like').text(terasaSeperti);
+        $('.humidity').text(kelembapan);
+        $('.wind').text(kecepatanAngin);
+        $('.condition-text').text(kondisi);
+        $('.condition-icon').attr('src', ikonUrl);
+
+        $('.weather-card').addClass('loaded');
+      },
+      error: function() {
+        $('.location').text("Kota tidak ditemukan 😢");
+        $('.region, .latlon').text("-");
+        $('.condition, .temperature, .details').hide();
+        $('.weather-card').addClass('loaded');
+      }
+    });
+  }
+
+  $('#search-btn').on('click', function() {
+    const city = $('#city-input').val();
+    if (city) getWeather(city);
+  });
+
+  $('#city-input').on('keypress', function(e) {
+    if (e.which === 13) {
+      const city = $('#city-input').val();
+      if (city) getWeather(city);
+    }
+  });
+
+  getWeather('Yogyakarta');
+</script>
 </body>
 </html>
