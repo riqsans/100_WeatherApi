@@ -102,9 +102,38 @@
   .detail-item .label { font-weight: 300; display: block; }
   .detail-item .value { font-weight: 500; }
 </style>
-
 </head>
 <body>
-  
+  <div class="search-box">
+  <input type="text" id="city-input" placeholder="Cari kota...">
+  <button id="search-btn">Cari</button>
+</div>
+
+<div class="weather-card">
+  <h2 class="location">Memuat...</h2>
+  <p class="region">-</p>
+  <p class="latlon">Lat: - | Lon: -</p>
+
+  <div class="condition">
+    <img class="condition-icon" src="" alt="Ikon cuaca">
+    <p class="condition-text">-</p>
+  </div>
+  <h1 class="temperature">-&deg;C</h1>
+
+  <div class="details">
+    <div class="detail-item">
+      <span class="label">Suhu Terasa</span>
+      <span class="value feels-like">-&deg;C</span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Kelembapan</span>
+      <span class="value humidity">-%</span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Kecepatan Angin</span>
+      <span class="value wind">- km/jam</span>
+    </div>
+  </div>
+</div>
 </body>
 </html>
